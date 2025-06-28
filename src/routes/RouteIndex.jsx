@@ -4,7 +4,7 @@ import HomeScreen from '../components/views/home/HomeScreen'
 import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 
-export default function RouteIndex() {
+function RouteIndex() {
   return (
     <Routes>
         <Route path="/" element={<HomeScreen />} />
@@ -13,3 +13,5 @@ export default function RouteIndex() {
     </Routes>
   )
 }
+
+export default RouteIndex;
