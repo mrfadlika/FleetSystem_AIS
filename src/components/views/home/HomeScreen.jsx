@@ -3,6 +3,8 @@ import { ChevronDown, Menu, Users, Clock, Car, MapPin, X } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useNavigate } from "react-router-dom";
+import IconBang from "/assets/Iconimage.png";
 
 // Fix icon error
 delete L.Icon.Default.prototype._getIconUrl;
@@ -20,6 +22,7 @@ const HomeScreen = () => {
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const mapRef = useRef();
+  const navigate = useNavigate();
 
   // Debug selectedVehicle state
   useEffect(() => {
@@ -188,7 +191,7 @@ const HomeScreen = () => {
       className="p-4 rounded-lg flex items-center space-x-3"
       style={{ backgroundColor: "#343538" }}
     >
-      <div className="p-2 rounded" style={{ backgroundColor: color }}>
+      <div className="p-2 rounded">
         {icon}
       </div>
       <div>
@@ -276,7 +279,10 @@ const HomeScreen = () => {
                 <div className="text-xs text-gray-400">chaeunwoo@gmail.com</div>
               </div>
               <div className="p-2">
-                <button className="w-full text-left px-3 py-2 rounded text-sm text-white hover:bg-gray-600">
+                <button
+                  className="w-full text-left px-3 py-2 rounded text-sm text-white hover:bg-gray-600"
+                  onClick={() => navigate('/profile')}
+                >
                   Profile
                 </button>
                 <button className="w-full text-left px-3 py-2 rounded text-sm text-red-400 hover:bg-gray-600">
@@ -318,22 +324,22 @@ const HomeScreen = () => {
           {/* Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
             <StatCard
-              icon={<Car className="w-6 h-6 text-white" />}
+              icon={<img src={IconBang} alt="Bang" className="w-10 h-10" />}
               value={stats.total}
               label="Total"
             />
             <StatCard
-              icon={<Car className="w-6 h-6 text-white" />}
+              icon={<img src={IconBang} alt="Bang" className="w-10 h-10" />}
               value={stats.online}
               label="ON"
             />
             <StatCard
-              icon={<Car className="w-6 h-6 text-white" />}
+              icon={<img src={IconBang} alt="Bang" className="w-10 h-10" />}
               value={stats.offline}
               label="OFF"
             />
             <StatCard
-              icon={<MapPin className="w-6 h-6 text-white" />}
+              icon={<img src={IconBang} alt="Bang" className="w-10 h-10" />}
               value={stats.lossCoordinate}
               label="Loss Coordinate"
             />
