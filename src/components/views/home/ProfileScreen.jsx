@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Edit2, Home, Clock, Plus, CheckCircle } from "lucide-react";
+import { Edit2, Home, Clock, Plus, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const initialProfile = {
   username: "Your First Name",
@@ -24,6 +24,7 @@ const ProfileScreen = () => {
   const [profile, setProfile] = useState(initialProfile);
   const [form, setForm] = useState(profile);
   const [newEmail, setNewEmail] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleEdit = () => {
     setForm(profile);
@@ -76,20 +77,41 @@ const ProfileScreen = () => {
       </div>
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="w-56 bg-[#2d2e32] flex flex-col py-8 px-4 min-h-full border-r border-[#343538]">
+        <aside
+          className={`
+            min-h-screen flex flex-col py-8 px-4 border-r border-[#343538]
+            transition-all duration-300 ease-in-out
+            ${isSidebarOpen ? 'w-64' : 'w-20 items-center'}
+          `}
+        >
+          {/* Toggle Sidebar Button */}
+          <button
+            className="self-end p-3 rounded-full bg-[#343538] text-gray-400 hover:bg-gray-600 transition-colors duration-200 mb-3"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            title={isSidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"}
+          >
+            {isSidebarOpen ? (
+              <ChevronLeft className="w-7 h-7" />
+            ) : (
+              <ChevronRight className="w-7 h-7" />
+            )}
+          </button>
+
           <nav className="flex flex-col gap-2 mt-2">
             <button
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#343538] text-white font-semibold shadow transition hover:bg-[#74CD25] hover:text-white"
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-[#343538] text-white font-semibold shadow transition hover:bg-[#74CD25] hover:text-white
+                ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
               onClick={() => navigate("/")}
             >
-              <Home className="w-6 h-6" />
-              Dashboard
+              <span><Home className="w-6 h-6" /></span>
+              {isSidebarOpen && "Dashboard"} {/* Conditionally render text */}
             </button>
             <button
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition"
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition
+                ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
             >
-              <Clock className="w-6 h-6" />
-              History Data
+              <span><Clock className="w-6 h-6" /></span>
+              {isSidebarOpen && "History Data"} {/* Conditionally render text */}
             </button>
           </nav>
         </aside>
@@ -260,4 +282,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen; 
+export default ProfileScreen;

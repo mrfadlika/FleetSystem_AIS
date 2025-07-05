@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChevronDown, Menu, Users, Clock, Car, MapPin, X } from "lucide-react";
+import { ChevronDown, Menu, Users, Clock, Car, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -21,6 +21,7 @@ const HomeScreen = () => {
   const [hoveredVehicle, setHoveredVehicle] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const mapRef = useRef();
   const navigate = useNavigate();
 
@@ -172,9 +173,16 @@ const HomeScreen = () => {
     });
   }, []);
 
+  {/* Fungsi handleVehicleClick */}
   const handleVehicleClick = (vehicle) => {
     console.log('Marker clicked:', vehicle.name);
-    setSelectedVehicle(vehicle);
+    if (selectedVehicle && selectedVehicle.id === vehicle.id) {
+      // Jika kendaraan yang diklik sudah terpilih, batalkan pilihan
+      setSelectedVehicle(null);
+    } else {
+      // Jika kendaraan yang diklik belum terpilih, pilih kendaraan tersebut
+      setSelectedVehicle(vehicle);
+    }
   };
 
   const handleVehicleHover = (vehicle, position) => {
@@ -296,26 +304,39 @@ const HomeScreen = () => {
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 min-h-screen flex flex-col bg-transparent shadow-2xl border-r border-[#343538] py-8 px-4">
-          {/* Tombol unselect */}
-          {selectedVehicle && (
-            <button
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#343538] hover:bg-[#ef4444] transition text-gray-300 hover:text-white shadow-lg mb-6 border border-[#343538] self-center"
-              onClick={() => setSelectedVehicle(null)}
-              title="Unselect"
-            >
-              <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-            </button>
-          )}
+        <div
+          className={`
+            min-h-screen flex flex-col bg-transparent shadow-2xl border-r border-[#343538] py-8 px-4
+            transition-all duration-300 ease-in-out
+            ${isSidebarOpen ? 'w-64' : 'w-20 items-center'}
+          `}
+        >
+          {/* Tombol Toggle Sidebar */}
+          <button
+            className="self-end p-3 rounded-full bg-[#343538] text-gray-400 hover:bg-gray-600 transition-colors duration-200 mb-3"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            title={isSidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"}
+          >
+            {isSidebarOpen ? (
+              <ChevronLeft className="w-7 h-7" />
+            ) : (
+              <ChevronRight className="w-7 h-7" />
+            )}
+          </button>
+
           {/* Menu navigasi */}
           <nav className="flex flex-col gap-2 mt-2">
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#74CD25] text-white font-semibold shadow transition">
+            <button className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-[#74CD25] text-white font-semibold shadow transition
+              ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
+            >
               <span><Car className="w-6 h-6" /></span>
-              Dashboard
+              {isSidebarOpen && "Dashboard"}
             </button>
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition">
+            <button className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition
+              ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
+            >
               <span><Clock className="w-6 h-6" /></span>
-              History Data
+              {isSidebarOpen && "History Data"}
             </button>
           </nav>
         </div>
