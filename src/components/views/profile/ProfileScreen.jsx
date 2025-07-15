@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit2, Home, Clock, Plus, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import SideBar from "../../utils/sidebar/SideBar";
 
 const initialProfile = {
   username: "Your First Name",
@@ -77,44 +78,7 @@ const ProfileScreen = () => {
       </div>
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside
-          className={`
-            min-h-screen flex flex-col py-8 px-4 border-r border-[#343538]
-            transition-all duration-300 ease-in-out
-            ${isSidebarOpen ? 'w-64' : 'w-20 items-center'}
-          `}
-        >
-          {/* Toggle Sidebar Button */}
-          <button
-            className="self-end p-3 rounded-full bg-[#343538] text-gray-400 hover:bg-gray-600 transition-colors duration-200 mb-3"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            title={isSidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"}
-          >
-            {isSidebarOpen ? (
-              <ChevronLeft className="w-7 h-7" />
-            ) : (
-              <ChevronRight className="w-7 h-7" />
-            )}
-          </button>
-
-          <nav className="flex flex-col gap-2 mt-2">
-            <button
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-[#343538] text-white font-semibold shadow transition hover:bg-[#74CD25] hover:text-white
-                ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
-              onClick={() => navigate("/")}
-            >
-              <span><Home className="w-6 h-6" /></span>
-              {isSidebarOpen && "Dashboard"} {/* Conditionally render text */}
-            </button>
-            <button
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition
-                ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
-            >
-              <span><Clock className="w-6 h-6" /></span>
-              {isSidebarOpen && "History Data"} {/* Conditionally render text */}
-            </button>
-          </nav>
-        </aside>
+        <SideBar />
         {/* Main Content */}
         <main className="flex-1 flex flex-col items-center py-12 px-4 bg-[#232428]">
           {!editMode ? (

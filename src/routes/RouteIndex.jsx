@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import HomeScreen from '../components/views/home/HomeScreen'
 import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
-import ProfileScreen from '../components/views/home/ProfileScreen'
+import ProfileScreen from '../components/views/profile/ProfileScreen'
 
 function RouteIndex() {
   return (

@@ -5,6 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useNavigate } from "react-router-dom";
 import IconBang from "/assets/Iconimage.png";
+import SideBar from "../../utils/sidebar/SideBar";
 
 // Fix icon error
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,7 +22,6 @@ const HomeScreen = () => {
   const [hoveredVehicle, setHoveredVehicle] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const mapRef = useRef();
   const navigate = useNavigate();
 
@@ -303,43 +303,7 @@ const HomeScreen = () => {
       </div>
 
       <div className="flex">
-        {/* Sidebar */}
-        <div
-          className={`
-            min-h-screen flex flex-col bg-transparent shadow-2xl border-r border-[#343538] py-8 px-4
-            transition-all duration-300 ease-in-out
-            ${isSidebarOpen ? 'w-64' : 'w-20 items-center'}
-          `}
-        >
-          {/* Tombol Toggle Sidebar */}
-          <button
-            className="self-end p-3 rounded-full bg-[#343538] text-gray-400 hover:bg-gray-600 transition-colors duration-200 mb-3"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            title={isSidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"}
-          >
-            {isSidebarOpen ? (
-              <ChevronLeft className="w-7 h-7" />
-            ) : (
-              <ChevronRight className="w-7 h-7" />
-            )}
-          </button>
-
-          {/* Menu navigasi */}
-          <nav className="flex flex-col gap-2 mt-2">
-            <button className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-[#74CD25] text-white font-semibold shadow transition
-              ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
-            >
-              <span><Car className="w-6 h-6" /></span>
-              {isSidebarOpen && "Dashboard"}
-            </button>
-            <button className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-transparent text-white font-semibold hover:bg-[#343538] transition
-              ${!isSidebarOpen ? 'justify-center w-auto' : ''}`}
-            >
-              <span><Clock className="w-6 h-6" /></span>
-              {isSidebarOpen && "History Data"}
-            </button>
-          </nav>
-        </div>
+        <SideBar />
 
         <div className="flex-1 p-6">
           {/* Stats */}
@@ -373,7 +337,7 @@ const HomeScreen = () => {
                 className="rounded-lg p-4 mb-4"
                 style={{ backgroundColor: "#343538" }}
               >
-                <div className={selectedVehicle ? "h-[500px] rounded overflow-hidden transition-all duration-500" : "h-[500px] rounded overflow-hidden transition-all duration-500 w-full"}>
+                <div className={selectedVehicle ? "h-[500px] rounded overflow-hidden transition-all duration-500" : "h-[600px] rounded overflow-hidden transition-all duration-500 w-full"}>
                   <MapContainer
                     ref={mapRef}
                     center={[-5.135, 119.423]}
@@ -465,6 +429,14 @@ const HomeScreen = () => {
                 key={selectedVehicle.id}
                 className="w-96 space-y-6 animate-fade-in-right relative"
               >
+                {/* Tombol Unselect */}
+                <button
+                  className="absolute top-4 right-4 p-2 rounded-full bg-red-500 text-white text-xs font-semibold shadow hover:bg-red-600 transition z-10 flex items-center justify-center"
+                  onClick={() => setSelectedVehicle(null)}
+                  title="Batalkan Pilihan"
+                >
+                  <X className="w-4 h-4" />
+                </button>
                 {/* Detail Kendaraan (Cars) */}
                 <div className="rounded-2xl shadow-2xl p-7 bg-gradient-to-br from-[#232526] to-[#343538] border border-[#232526] transition-all duration-500">
                   <div className="flex items-center mb-6">
