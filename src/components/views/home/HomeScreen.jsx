@@ -6,8 +6,8 @@ import "leaflet/dist/leaflet.css";
 import { useNavigate } from "react-router-dom";
 import IconBang from "/assets/Iconimage.png";
 import SideBar from "../../utils/sidebar/SideBar";
+import Header from '../../utils/Header';
 
-// Fix icon error
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -21,11 +21,9 @@ const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState("cars");
   const [hoveredVehicle, setHoveredVehicle] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const mapRef = useRef();
   const navigate = useNavigate();
 
-  // Debug selectedVehicle state
   useEffect(() => {
     console.log('selectedVehicle changed:', selectedVehicle);
   }, [selectedVehicle]);
@@ -173,14 +171,11 @@ const HomeScreen = () => {
     });
   }, []);
 
-  {/* Fungsi handleVehicleClick */}
   const handleVehicleClick = (vehicle) => {
     console.log('Marker clicked:', vehicle.name);
     if (selectedVehicle && selectedVehicle.id === vehicle.id) {
-      // Jika kendaraan yang diklik sudah terpilih, batalkan pilihan
       setSelectedVehicle(null);
     } else {
-      // Jika kendaraan yang diklik belum terpilih, pilih kendaraan tersebut
       setSelectedVehicle(vehicle);
     }
   };
@@ -249,58 +244,7 @@ const HomeScreen = () => {
       style={{ backgroundColor: "#1E1F22" }}
     >
       {/* Header */}
-      <div
-        className="p-4 flex items-center justify-between border-b"
-        style={{ backgroundColor: "#343538", borderColor: "#4a4a4a" }}
-      >
-        <div className="flex items-center space-x-4">
-          <div className="w-15 h-15">
-            <img src="/logo_ais.png" alt="Logo AIS" className="w-full h-full object-contain" />
-          </div>
-        </div>
-        <div className="flex items-center space-x-3 relative">
-          <div className="w-8 h-8 bg-gray-600 rounded-full overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-              alt="User"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div>
-            <div className="text-sm font-medium">Cha Eun-woo</div>
-            <div className="text-xs text-gray-400">chaeunwoo@gmail.com</div>
-          </div>
-          <button onClick={() => setShowProfileDropdown(!showProfileDropdown)}>
-            <ChevronDown className="w-4 h-4 text-gray-400" />
-          </button>
-
-          {/* Profile Dropdown */}
-          {showProfileDropdown && (
-            <div
-              className="absolute top-full right-0 mt-2 w-48 rounded-lg shadow-lg z-50"
-              style={{ backgroundColor: "#343538" }}
-            >
-              <div className="p-3 border-b" style={{ borderColor: "#4a4a4a" }}>
-                <div className="text-sm font-medium text-white">
-                  Cha Eun-woo
-                </div>
-                <div className="text-xs text-gray-400">chaeunwoo@gmail.com</div>
-              </div>
-              <div className="p-2">
-                <button
-                  className="w-full text-left px-3 py-2 rounded text-sm text-white hover:bg-gray-600"
-                  onClick={() => navigate('/profile')}
-                >
-                  Profile
-                </button>
-                <button className="w-full text-left px-3 py-2 rounded text-sm text-red-400 hover:bg-gray-600">
-                  Log Out
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <Header />
 
       <div className="flex">
         <SideBar />

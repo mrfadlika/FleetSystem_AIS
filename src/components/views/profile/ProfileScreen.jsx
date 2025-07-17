@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit2, Home, Clock, Plus, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import SideBar from "../../utils/sidebar/SideBar";
+import Header from '../../utils/Header';
 
 const initialProfile = {
   username: "Your First Name",
@@ -60,22 +61,7 @@ const ProfileScreen = () => {
   return (
     <div className="min-h-screen bg-[#232428] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-4 bg-[#2d2e32] border-b border-[#343538]">
-        <div className="flex items-center gap-4">
-          <img src="/logo_ais.png" alt="Logo AIS" className="w-14 h-14 object-contain" />
-        </div>
-        <div className="flex items-center gap-3 relative">
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-            alt="User"
-            className="w-10 h-10 rounded-full object-cover border-2 border-[#74CD25]"
-          />
-          <div>
-            <div className="text-base font-semibold text-white leading-tight">Cha Eun-woo</div>
-            <div className="text-xs text-gray-400 leading-tight">chaeunwoo@gmail.com</div>
-          </div>
-        </div>
-      </div>
+      <Header />
       <div className="flex flex-1">
         {/* Sidebar */}
         <SideBar />
